@@ -1,8 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
-*$py.class
-
 # C extensions
 *.so
 
@@ -205,3 +203,80 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+db.sqlite3
+
+# Env files
+.env
+env/
+venv/
+ENV/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Static files
+staticfiles/
+static/
+
+# Media files (user uploads)
+media/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Celery beat schedule file
+celerybeat-schedule
+
+# MyPy
+.mypy_cache/
+
+# Pycharm project files
+*.iml
+
+# pipenv
+Pipfile.lock
+
+# pyenv
+.python-version
+
+# pytest
+.pytest_cache/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# C extensions
+*.so
+
+# Unit test / coverage reports
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Django migration files
+*.pyc
+*.pyo
