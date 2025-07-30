@@ -1,3 +1,5 @@
 from django.contrib import admin
+from apps.connections.models import ConnectionRequests
 
-# Register your models here.
+# Django Admin 
+admin.site.register(ConnectionRequests)

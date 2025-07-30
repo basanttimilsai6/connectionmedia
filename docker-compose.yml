@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn configurations.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
@@ -16,22 +16,6 @@ services:
       - db
       - redis
 
-  celery:
-    build: .
-    command: celery -A config worker -l info
-    volumes:
-      - .:/app
-    env_file:
-      - .env
-    depends_on:
-      - db
-      - redis
-
-  redis:
-    image: redis:7.0-alpine
-    ports:
-      - "6379:6379"
-
   db:
     image: postgres:15-alpine
     volumes:
@@ -42,6 +26,25 @@ services:
       POSTGRES_PASSWORD: soft
     ports:
       - "5432:5432"
+
+  celery:
+    build: .
+    command: celery -A configurations worker -l info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=configurations.settings.dev
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis:7.0-alpine
+    ports:
+      - "6369:6379"
+
 
 volumes:
   postgres_data:
