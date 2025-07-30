@@ -16,10 +16,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings
+from django.conf.urls.static import static
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+#Admin
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/auth/', include('users.urls.v1_urls')),
-    path('api/v1/connections/', include('connections.urls.v1_urls')),
-    path('api/v1/notifications/', include('connections.urls.v1_urls'))
 ]
+
+#Swagger
+urlpatterns += [
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+]
+
+
+#Apps
+urlpatterns += [
+    path('api/v1/auth/', include('apps.users.urls.v1_urls')),
+    path('api/v1/connections/', include('apps.connections.urls.v1_urls')),
+    path('api/v1/notifications/', include('apps.connections.urls.v1_urls'))
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

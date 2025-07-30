@@ -280,3 +280,8 @@ coverage.xml
 # Django migration files
 *.pyc
 *.pyo
+
+
+# Ignore Django migration files
+**/migrations/000*.py
+**/migrations/__pycache__/
