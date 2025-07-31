@@ -40,8 +40,8 @@ ACCESS_TOKEN_LIFETIME = 15
 REFRESH_TOKEN_LIFETIME = 1
 ```
 ```bash
-docker-compose build
-docker-compose up
+docker compose build
+docker compose up
 
 docker exec -it web-container-name bash
 python manage.py makemigrations
