@@ -1,12 +1,16 @@
-from rest_framework import viewsets
+from rest_framework import viewsets,permissions
 from rest_framework.permissions import AllowAny
-from apps.users.serializers.v1_serializers import UserSerializer,UserLoginSerializer
+from apps.users.serializers.v1_serializers import UserSerializer,UserLoginSerializer,UserSearchSerializer
 from core.response import MyResponse
 from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from apps.users.services.v1_services import UserServices as us
-from rest_framework.throttling import AnonRateThrottle
+from rest_framework.throttling import AnonRateThrottle,UserRateThrottle
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.filters import SearchFilter
 from drf_spectacular.utils import extend_schema
+from apps.users.models import User
+from django.db.models import Q
 
 
 
@@ -54,4 +58,36 @@ class UserLogin(APIView):
             return MyResponse.failure(message=str(first_error))
         except Exception as e:
             return MyResponse.failure(message=f"Something went wrong {e}", status_code=500)
-        
+
+
+class UserSearchView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
+    serializer_class = UserSerializer
+
+    @extend_schema(parameters=[UserSearchSerializer],tags=["User Filters"])
+    def get(self, request):
+        try:
+            filters = {
+                'full_name__icontains': request.query_params.get('name'),
+                'email__icontains': request.query_params.get('email'),
+                'contact_number__icontains': request.query_params.get('phone'),
+                'company_name__icontains': request.query_params.get('company'),
+            }
+            # Remove None values
+            filters = {k: v for k, v in filters.items() if v}
+
+            queryset = User.objects.filter(**filters) if filters else User.objects.all()
+
+            serializer = self.serializer_class(queryset, many=True)
+            return MyResponse.success(
+                message="Users fetched successfully.",
+                data=serializer.data,
+                status_code=200
+            )
+        except Exception as e:
+            return MyResponse.failure(
+                message=f"Something went wrong: {str(e)}",
+                status_code=500
+            )

@@ -23,3 +23,11 @@ class UserSerializer(serializers.Serializer):
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True, allow_blank=False,error_messages={'required': 'Username is required.', 'blank': 'Please choose a username.'})
     password = serializers.CharField(required=True, allow_blank=False,error_messages={'required': 'Password is required.', 'blank': 'Please enter a password.', 'min_length': 'Password must be at least 8 characters long.'})
+
+
+
+class UserSearchSerializer(serializers.Serializer):
+    name = serializers.CharField(required=False)
+    email = serializers.CharField(required=False)
+    company = serializers.CharField(required=False)
+    phone = serializers.CharField(required=False)
