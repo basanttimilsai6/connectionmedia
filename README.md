@@ -27,6 +27,7 @@ cd connectionmedia
 ```
 
 ## Create .env (nano .env)
+```bash
 DEBUG=1
 POSTGRES_NAME =  f1
 POSTGRES_USER = soft
@@ -37,7 +38,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 SECRET_KEY = 'django-insecure-ASDFGHJ34567DFGHJ2345CVBNM34567XCVBNMCVBN'
 ACCESS_TOKEN_LIFETIME = 15
 REFRESH_TOKEN_LIFETIME = 1
-
+```
 ```bash
 docker-compose build
 docker-compose up
