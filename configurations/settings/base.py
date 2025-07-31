@@ -100,8 +100,19 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.AnonRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '15/min',
+        'anon': '10/min',
+    }
 }
+
+
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Social Connection API',
     'DESCRIPTION': 'Allow registered users to connect with each other through connection requests',
@@ -151,3 +162,5 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     "SIGNING_KEY": os.getenv("SECRET_KEY")
 }
+
+

@@ -1,17 +1,21 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
-from apps.users.models import User
 from apps.users.serializers.v1_serializers import UserSerializer,UserLoginSerializer
 from core.response import MyResponse
 from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from apps.users.services.v1_services import UserServices as us
+from rest_framework.throttling import AnonRateThrottle
+from drf_spectacular.utils import extend_schema
+
 
 
 class UserRegistrationViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
+    throttle_classes = [AnonRateThrottle]
     serializer_class = UserSerializer
 
+    @extend_schema(tags=["Auth"])
     def create(self, request):
         try:
             serializer = self.serializer_class(data=request.data)
@@ -28,8 +32,11 @@ class UserRegistrationViewSet(viewsets.ViewSet):
     
 
 class UserLogin(APIView):
+    permission_classes = [AllowAny]
+    throttle_classes = [AnonRateThrottle]
     serializer_class = UserLoginSerializer
 
+    @extend_schema(tags=["Auth"])
     def post(self,request):
         try:
             serializer = self.serializer_class(data=request.data)
