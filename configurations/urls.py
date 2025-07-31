@@ -38,7 +38,7 @@ urlpatterns += [
 urlpatterns += [
     path('api/v1/auth/', include('apps.users.urls.v1_urls')),
     path('api/v1/connections/', include('apps.connections.urls.v1_urls')),
-    path('api/v1/notifications/', include('apps.connections.urls.v1_urls'))
+    path('api/v1/notifications/', include('apps.notifications.urls.v1_urls'))
 ]
 
 #JWT
