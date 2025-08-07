@@ -14,7 +14,7 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_NAME","f1"),
         "USER": os.getenv("POSTGRES_USER","soft"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD","soft"),
-        "HOST": os.getenv("POSTGRES_HOST","db"),
+        "HOST": os.getenv("POSTGRES_HOST","postgres"),
         "PORT": int(POSTGRES_PORT) if POSTGRES_PORT.isdigit() else 5432,
     }
 }
