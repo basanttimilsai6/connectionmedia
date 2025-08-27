@@ -119,7 +119,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Social Connection API',
-    'DESCRIPTION': 'Bollow registered users to connect with each other through connection requests',
+    'DESCRIPTION': 'Allow registered users to connect with each other through connection requests',
     'VERSION': '1.1.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
