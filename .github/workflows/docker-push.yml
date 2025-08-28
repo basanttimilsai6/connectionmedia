@@ -1,6 +1,5 @@
-name: Build & Push Docker Image
+name: Build & Push DRF Docker Image
 
-# Run workflow only when main branch is pushed
 on:
   push:
     branches:
@@ -22,10 +21,22 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 3️⃣ Build Docker image
+      # 3️⃣ Build Docker image with environment variables
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-drf-app:latest .
+        run: |
+          docker build \
+            --build-arg DEBUG=${{ secrets.DEBUG }} \
+            --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}" \
+            --build-arg POSTGRES_NAME=${{ secrets.POSTGRES_NAME }} \
+            --build-arg POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+            --build-arg POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+            --build-arg POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} \
+            --build-arg POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} \
+            --build-arg CELERY_BROKER_URL="${{ secrets.CELERY_BROKER_URL }}" \
+            --build-arg ACCESS_TOKEN_LIFETIME=${{ secrets.ACCESS_TOKEN_LIFETIME }} \
+            --build-arg REFRESH_TOKEN_LIFETIME=${{ secrets.REFRESH_TOKEN_LIFETIME }} \
+            -t ${{ secrets.DOCKER_USERNAME }}/my-drf-app:latest .
 
-      # 4️⃣ Push Docker image
+      # 4️⃣ Push Docker image to DockerHub
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-drf-app:latest
